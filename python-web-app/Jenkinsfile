@@ -34,7 +34,7 @@ pipeline {
                 script{
                     sh '''
                     echo 'Push to Repo'
-                    docker push ngurajnagaraj/python-web-app:${BUILD_NUMBER}
+                    docker push angurajnagaraj/python-web-app:${BUILD_NUMBER}
                     '''
                 }
             }
