@@ -28,6 +28,24 @@ pipeline {
                 }
             }
         }
+		
+		stage('Push the artifacts'){
+           steps{
+                script{
+                    sh '''
+                    echo 'Push to Repo'
+                    docker push ngurajnagaraj/python-web-app:${BUILD_NUMBER}
+                    '''
+                }
+            }
+        }
+		
+		stage('Checkout K8S manifest SCM'){
+            steps {
+                url: 'https://github.com/Angurajnagaraj/cicd-demo-manifests-repo/tree/4e2028556916392ef51ec801068cbf8b2de0859f/new-folder',
+                branch: 'main'
+            }
+        }
         
     }
 }
