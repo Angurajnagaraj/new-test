@@ -1,0 +1,33 @@
+pipeline {
+    
+    agent any 
+    
+    environment {
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        GIT_REPO_URL = 'https://github.com/Angurajnagaraj/new-test/'  // Your GitHub repository URL
+        BRANCH_NAME = 'main'  // Branch you want to checkout, change as needed
+    }
+    
+    stages {
+        
+        stage('Checkout'){
+           steps {
+                git url: "${GIT_REPO_URL}", branch: "${BRANCH_NAME}"
+           }
+        }
+
+        stage('Build Docker'){
+            steps{
+                script{
+                    sh '''
+                    cd python-web-app
+                    cat Jenkinsfile
+                    echo 'Buid Docker Image'
+                    docker build -t angurajnagaraj/python-web-app:${BUILD_NUMBER} .
+                    '''
+                }
+            }
+        }
+        
+    }
+}
