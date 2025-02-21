@@ -6,6 +6,7 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
         GIT_REPO_URL = 'https://github.com/Angurajnagaraj/new-test/'  // Your GitHub repository URL
         BRANCH_NAME = 'main'  // Branch you want to checkout, change as needed
+		DOCKER_CREDENTIALS = credentials('DockerId')
     }
     
     stages {
@@ -29,6 +30,16 @@ pipeline {
             }
         }
 		
+      stages {
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    sh "echo \$DOCKER_CREDENTIALS_PSW | docker login -u \$DOCKER_CREDENTIALS_USR --password-stdin"
+                }
+            }
+        }
+	}
+		
 		stage('Push the artifacts'){
            steps{
                 script{
@@ -40,12 +51,13 @@ pipeline {
             }
         }
 		
-	stage('Checkout K8S manifest SCM'){
+		stage('Checkout K8S manifest SCM'){
             steps {
-               git url: 'https://github.com/Angurajnagaraj/cicd-demo-manifests-repo',
+                git url: 'https://github.com/Angurajnagaraj/cicd-demo-manifests-repo,
                 branch: 'main'
             }
         }
+		
         
     }
 }
