@@ -6,7 +6,8 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
         GIT_REPO_URL = 'https://github.com/Angurajnagaraj/new-test/'  // Your GitHub repository URL
         BRANCH_NAME = 'main'  // Branch you want to checkout, change as needed
-		DOCKER_CREDENTIALS = credentials('DockerId')
+	DOCKER_CREDENTIALS = credentials('DockerId')
+	GITACCESS = credentials('Githubaccesstoken')
     }
     
     stages {
@@ -49,10 +50,10 @@ pipeline {
             }
         }
 		
-	stage('Checkout K8S manifest SCM'){
+     stage('Checkout K8S manifest SCM'){
             steps {
                 git url: 'https://github.com/Angurajnagaraj/cicd-demo-manifests-repo',
-                branch: "${BRANCH_NAME}"
+                branch: "${BRANCH_NAME}
             }
         }
 		
@@ -62,12 +63,12 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'Newgithubid', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
                         cat deploy.yaml
-                        sed -i  's/14/${BUILD_NUMBER}/g' deploy.yaml
+                        sed -i '' "s/15/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
                         git add deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
                         git remote -v
-                        git push https://github.com/Angurajnagaraj/cicd-demo-manifests-repo HEAD:main
+                        git push https://$GIT_USERNAME:GITACCESS@github.com/Angurajnagaraj/cicd-demo-manifests-repo HEAD:main
                         '''                        
                     }
                 }
