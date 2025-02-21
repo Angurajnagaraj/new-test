@@ -30,7 +30,6 @@ pipeline {
             }
         }
 		
-      stages {
         stage('Login to Docker Hub') {
             steps {
                 script {
@@ -38,9 +37,8 @@ pipeline {
                 }
             }
         }
-	}
 		
-		stage('Push the artifacts'){
+	stage('Push the artifacts'){
            steps{
                 script{
                     sh '''
