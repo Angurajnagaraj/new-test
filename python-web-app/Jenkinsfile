@@ -62,14 +62,13 @@ pipeline {
                 script{
                     withCredentials([usernamePassword(credentialsId: 'Newgithubid', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
-			echo ${GITACCESS}
                         cat deploy.yaml
                         sed -i 's/17/${BUILD_NUMBER}/g' deploy.yaml
                         cat deploy.yaml
                         git add deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
                         git remote -v
-                        git push https://${GIT_USERNAME}:${GITACCESS}@github.com/Angurajnagaraj/cicd-demo-manifests-repo.git HEAD:main
+			git push https://github.com/Angurajnagaraj/cicd-demo-manifests-repo.git HEAD:main
                         '''                        
                     }
                 }
