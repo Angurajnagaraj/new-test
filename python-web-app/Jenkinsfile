@@ -64,8 +64,9 @@ pipeline {
                 script{
                     withCredentials([string(credentialsId: 'Githubaccesstoken', variable: 'GITHUB_TOKEN')]) {
                         sh '''
+			cd new-folder
                         cat deploy.yaml
-                        sed -i 's/17/${BUILD_NUMBER}/g' deploy.yaml
+                        sed -i 's/v1/${BUILD_NUMBER}/g' deploy.yaml
                         cat deploy.yaml
                         git add deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
